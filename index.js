@@ -30,9 +30,7 @@ Spaceload.prototype = {
 					var path = resolve(this.prefix[prefix].path+endNamespace+'.js');
 					this.cachePath.push(path);
 					return this.cachePrefix[namespace] = require(path);
-				} catch(e) {
-					throw new Error('['+namespace+'] namespace not found file ('+path+')');
-				}
+				} catch(e) {}
 			}
 		}
 		throw new Error('['+namespace+'] namespace not found');
@@ -49,7 +47,7 @@ module.exports = function(globalVar) {
 	var spaceload = new Spaceload();
 	if(globalVar === undefined || globalVar === true) {
 		GLOBAL.SPACELOAD = spaceload;
-		GLOBAL.USE = spaceload.use;
+		GLOBAL.USE = function(namespace) { return SPACELOAD.use(namespace); };
 	}
 	return spaceload;
 };
