@@ -1,4 +1,5 @@
 var resolve = require('path').resolve;
+var fs = require('fs');
 
 
 var Spaceload = function(debug) {
@@ -38,14 +39,12 @@ Spaceload.prototype = {
 			var endNamespace = namespace.match(this.prefix[prefix].regexp)
 			if(endNamespace !== null) {
 				endNamespace = endNamespace[1].replace(/\./g, '\/');
-				try {
-					var path = resolve(this.prefix[prefix].path+endNamespace+'.js');
-					this.cachePath.push(path);
+				var path = resolve(this.prefix[prefix].path+endNamespace+'.js');
+				this.cachePath.push(path);
+				if(fs.existsSync(path) === true) {
 					return this.cachePrefix[namespace] = require(path);
-				} catch(e) {
-					if(this.debug === true) {
-						search.push(path);
-					}
+				} else if(this.debug === true) {
+					search.push(path);
 				}
 			}
 		}
