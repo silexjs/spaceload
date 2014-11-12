@@ -1,8 +1,14 @@
 var resolve = require('path').resolve;
 
 
-var Spaceload = function() {};
+var Spaceload = function(debug) {
+	if(debug !== undefined) {
+		this.debug = debug;
+		this.debugPrefix = {};
+	}
+};
 Spaceload.prototype = {
+	debug: false,
 	prefix: {},
 	cachePrefix: {},
 	cachePath: [],
@@ -10,6 +16,9 @@ Spaceload.prototype = {
 	register: function(prefix, path) {
 		if(this.prefix[prefix] !== undefined) {
 			throw new Error('['+prefix+'] prefix namespace is already registered');
+		}
+		if(this.debug === true) {
+			this.debugPrefix[prefix] = path;
 		}
 		this.prefix[prefix] = {
 			path: path,
@@ -22,6 +31,9 @@ Spaceload.prototype = {
 		if(this.cachePrefix[namespace] !== undefined) {
 			return this.cachePrefix[namespace];
 		}
+		if(this.debug === true) {
+			var search = [];
+		}
 		for(var prefix in this.prefix) {
 			var endNamespace = namespace.match(this.prefix[prefix].regexp)
 			if(endNamespace !== null) {
@@ -30,10 +42,22 @@ Spaceload.prototype = {
 					var path = resolve(this.prefix[prefix].path+endNamespace+'.js');
 					this.cachePath.push(path);
 					return this.cachePrefix[namespace] = require(path);
-				} catch(e) {}
+				} catch(e) {
+					if(this.debug === true) {
+						search.push(path);
+					}
+				}
 			}
 		}
-		throw new Error('['+namespace+'] namespace not found');
+		var message = '['+namespace+'] namespace not found';
+		if(this.debug === true) {
+			message += '.\nPaths tested :\n- '+search.join(', \n- ')+'\n';
+			message += '\nPrefix list :\n';
+			for(var prefix in this.debugPrefix) {
+				message += '- '+prefix+' -> '+this.debugPrefix[prefix]+'\n';
+			}
+		}
+		throw new Error(message);
 	},
 	cacheClear: function() {
 		for(var i in this.cachePath) {
@@ -43,8 +67,8 @@ Spaceload.prototype = {
 	},
 };
 
-module.exports = function(globalVar) {
-	var spaceload = new Spaceload();
+module.exports = function(debug, globalVar) {
+	var spaceload = new Spaceload(debug);
 	if(globalVar === undefined || globalVar === true) {
 		GLOBAL.SPACELOAD = spaceload;
 		GLOBAL.USE = function(namespace) { return SPACELOAD.use(namespace); };
