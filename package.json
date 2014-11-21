@@ -1,7 +1,7 @@
 {
-	"name": "silex-spaceload",
+	"name": "spaceload",
 	"version": "0.0.6",
-	"description": "Recreate the Namespace in Javascript and autoloader",
+	"description": "Create a system of namespace with an integrated autoloader",
 	"main": "index.js",
 	"engines": {
 		"node": ">=0.10.0"
@@ -23,11 +23,8 @@
 	"keywords": [
 		"spaceload",
 		"namespace",
-		"load",
-		"loader",
 		"autoload",
-		"file",
-		"dir",
+		"autoloader",
 		"silex"
 	],
 	"author": "Valentin Allaire <valentin@sitexw.fr>",
