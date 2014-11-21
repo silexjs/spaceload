@@ -1,7 +1,7 @@
 {
   "name": "silex-spaceload",
-  "version": "0.0.4",
-  "description": "Recreate the Namespace in Javascript and autoloader",
+  "version": "0.0.5",
+  "description": "[DEPRECATE] Use \"spaceload\" package. Recreate the Namespace in Javascript and autoloader",
   "main": "index.js",
   "engines": {
     "node": ">=0.10.0"
