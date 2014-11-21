@@ -22,6 +22,7 @@ Spaceload.prototype = {
 			this.debugPrefix[prefix] = path;
 		}
 		this.prefix[prefix] = {
+			type: (/.*\.js$/.test(path)?'file':'dir'),
 			path: path,
 			regexp: new RegExp('^'+prefix.replace(/(\.|\s+|\\|\/)/g, '\\.')+'(.*)$'),
 		};
@@ -36,10 +37,18 @@ Spaceload.prototype = {
 			var search = [];
 		}
 		for(var prefix in this.prefix) {
-			var endNamespace = namespace.match(this.prefix[prefix].regexp)
+			if(this.prefix[prefix]['type'] === 'dir') {
+				var endNamespace = namespace.match(this.prefix[prefix].regexp)
+			} else {
+				var endNamespace = true;
+			}
 			if(endNamespace !== null) {
-				endNamespace = endNamespace[1].replace(/\./g, '\/');
-				var path = resolve(this.prefix[prefix].path+endNamespace+'.js');
+				if(this.prefix[prefix]['type'] === 'dir') {
+					endNamespace = endNamespace[1].replace(/\./g, '\/');
+					var path = resolve(this.prefix[prefix].path+endNamespace+'.js');
+				} else {
+					var path = resolve(this.prefix[prefix].path);
+				}
 				this.cachePath.push(path);
 				if(fs.existsSync(path) === true) {
 					return this.cachePrefix[namespace] = require(path);

@@ -1,35 +1,47 @@
 {
-  "name": "silex-spaceload",
-  "version": "0.0.4",
-  "description": "Recreate the Namespace in Javascript and autoloader",
-  "main": "index.js",
-  "engines": {
-    "node": ">=0.10.0"
-  },
-  "scripts": {
-    "test": "node ./test/test.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/silexjs/spaceload.git"
-  },
-  "keywords": [
-    "spaceload",
-    "namespace",
-    "load",
-    "loader",
-    "autoload",
-    "file",
-    "dir",
-    "silex"
-  ],
-  "author": "Valentin Allaire <valentin@sitexw.fr>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/silexjs/spaceload/issues"
-  },
-  "homepage": "https://github.com/silexjs/spaceload",
-  "directories": {
-    "test": "test"
-  }
+	"name": "silex-spaceload",
+	"version": "0.0.6",
+	"description": "Recreate the Namespace in Javascript and autoloader",
+	"main": "index.js",
+	"engines": {
+		"node": ">=0.10.0"
+	},
+	"dependencies": {
+		"silex-glob": "<2.0.0",
+		"commander": "2.x"
+	},
+	"scripts": {
+		"test": "console register ./test && node ./test/test.js"
+	},
+	"bin": {
+		"spaceload" : "./console.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/silexjs/spaceload.git"
+	},
+	"keywords": [
+		"spaceload",
+		"namespace",
+		"load",
+		"loader",
+		"autoload",
+		"file",
+		"dir",
+		"silex"
+	],
+	"author": "Valentin Allaire <valentin@sitexw.fr>",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/silexjs/spaceload/issues"
+	},
+	"homepage": "https://github.com/silexjs/spaceload",
+	"directories": {
+		"test": "test"
+	},
+	"autoload": {
+		"classmap": {
+			"Silex\\Spaceload": "index.js"
+		}
+	}
 }

@@ -1,0 +1,10 @@
+{
+	"psr-4": {
+		"Sitexw": "node_modules\\sitexw\\src",
+		"Silex\\Alpha": "node_modules\\silex-alpha\\src",
+		"Silex\\Charlie": "node_modules\\silex-charlie\\src"
+	},
+	"classmap": {
+		"Silex\\Beta\\Test": "node_modules\\silex-beta\\src\\Test.js"
+	}
+}
