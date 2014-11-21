@@ -18,7 +18,7 @@ function sortObject(o) {
 	return sorted;
 }
 
-cmd.version(require('./package.json')['version']);
+cmd.version(require('../package.json')['version']);
 cmd.command('register <dir>')
 	.description('Search all autoloads configuration in all "node_modules" dirs')
 	.action(function(dir) {
