@@ -1,2 +1,2 @@
-#!usrbinenv node
+#!/usr/bin/env node
 require('./spaceload.js');
