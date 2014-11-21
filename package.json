@@ -1,6 +1,6 @@
 {
 	"name": "spaceload",
-	"version": "0.0.7",
+	"version": "0.0.8",
 	"description": "Create a system of namespace with an integrated autoloader",
 	"main": "index.js",
 	"engines": {
@@ -14,7 +14,7 @@
 		"test": "console register ./test && node ./test/test.js"
 	},
 	"bin": {
-		"spaceload" : "./console.js"
+		"spaceload" : "./bin/spaceload"
 	},
 	"repository": {
 		"type": "git",
