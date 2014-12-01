@@ -1,7 +1,7 @@
 console.log('#################### Spacelaod start test');
 
 new (require('../index.js'))(true);
-require('./autoload.js');
+SPACELOAD.registerFile('./autoload.json');
 
 
 var Bonjour = USE('Sitexw.Bonjour.Speak');

@@ -1,6 +1,6 @@
 {
 	"name": "spaceload",
-	"version": "0.0.11",
+	"version": "0.0.12",
 	"description": "Create a system of namespace with an integrated autoloader",
 	"main": "index.js",
 	"engines": {
@@ -11,7 +11,7 @@
 		"commander": "2.x"
 	},
 	"scripts": {
-		"test": "node ./bin/spaceload install ./test --test && node ./test/test.js"
+		"test": "cd ./test && node ../bin/spaceload install --test && node ./test.js"
 	},
 	"bin": {
 		"spaceload" : "./bin/spaceload"

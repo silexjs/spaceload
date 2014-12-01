@@ -14,6 +14,19 @@ Spaceload.prototype = {
 	cachePrefix: {},
 	cachePath: [],
 	
+	registerFile: function(path) {
+		if(typeof path === 'string') {
+			var autoload = require(resolve(path));
+		} else {
+			var autoload = path;
+		}
+		for(type in autoload) {
+			for(ns in autoload[type]) {
+				this.register(ns, autoload[type][ns]);
+			}
+		}
+		return this;
+	},
 	register: function(prefix, path) {
 		if(this.prefix[prefix] !== undefined) {
 			throw new Error('['+prefix+'] prefix namespace is already registered');
