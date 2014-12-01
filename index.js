@@ -50,11 +50,7 @@ Spaceload.prototype = {
 			var search = [];
 		}
 		for(var prefix in this.prefix) {
-			if(this.prefix[prefix]['type'] === 'dir') {
-				var endNamespace = namespace.match(this.prefix[prefix].regexp)
-			} else {
-				var endNamespace = true;
-			}
+			var endNamespace = namespace.match(this.prefix[prefix].regexp);
 			if(endNamespace !== null) {
 				if(this.prefix[prefix]['type'] === 'dir') {
 					endNamespace = endNamespace[1].replace(/\./g, '\/');
