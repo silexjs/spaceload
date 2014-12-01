@@ -28,7 +28,7 @@ cmd.command('install [<dir>]')
 		var outFileName = this.out || 'autoload.json';
 		var autload = {};
 		var packages = glob(path.resolve(dir)+'/**/node_modules/*/package.json', function(file) {
-			if(this.test !== undefined && file.search('node_modules/spaceload/test/node_modules/') !== 0) {
+			if(this.test === undefined && file.search('node_modules/spaceload/test/node_modules/') !== -1) {
 				return false;
 			}
 		});
