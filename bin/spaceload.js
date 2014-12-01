@@ -19,11 +19,19 @@ function sortObject(o) {
 }
 
 cmd.version(require('../package.json')['version']);
-cmd.command('register <dir>')
-	.description('Search all autoloads configuration in all "node_modules" dirs')
+cmd.command('install [<dir>]')
+	.option('-o, --out <file>', 'Output file name')
+	.option('--test', 'Takes into account the test files of Spaceload')
+	.description('Search (in package.json files node_modules folder) and create the autoload file (json)')
 	.action(function(dir) {
+		var dir = dir || '.';
+		var outFileName = this.out || 'autoload.json';
 		var autload = {};
-		var packages = glob(path.resolve(dir)+'/**/node_modules/*/package.json');
+		var packages = glob(path.resolve(dir)+'/**/node_modules/*/package.json', function(file) {
+			if(this.test !== undefined && file.search('node_modules/spaceload/test/node_modules/') !== 0) {
+				return false;
+			}
+		});
 		for(i in packages) {
 			var pack = require(packages[i]);
 			if(pack['autoload'] !== undefined) {
@@ -55,6 +63,18 @@ cmd.command('register <dir>')
 				}
 			}
 		}
-		fs.writeFileSync(path.resolve(dir)+'/autoload.json', JSON.stringify(finalAutoload, null, '\t'));
+		var outFilePath = path.normalize(path.resolve(dir)+'/'+outFileName);
+		fs.writeFileSync(outFilePath, JSON.stringify(finalAutoload, null, '\t'));
+		
+		console.log('File "'+outFileName+'" created and contains: ('+outFilePath+')');
+		var nPSR4 = 0; if(autload['psr-4'] !== undefined) { nPSR4 = Object.keys(autload['psr-4']).length; }
+		console.log('"psr-4":    '+nPSR4+' namespace'+(nPSR4>1?'s':'')+' found');
+		var nCLASSMAP = 0; if(autload['classmap'] !== undefined) { nCLASSMAP = Object.keys(autload['classmap']).length; }
+		console.log('"classmap": '+nCLASSMAP+' namespace'+(nCLASSMAP>1?'s':'')+' found');
+		console.log('');
 	});
 cmd.parse(process.argv);
+
+if(cmd.args.length <= 1) {
+	cmd.help();
+}
