@@ -67,9 +67,9 @@ cmd.command('install [<dir>]')
 		fs.writeFileSync(outFilePath, JSON.stringify(finalAutoload, null, '\t'));
 		
 		console.log('File "'+outFileName+'" created and contains: ('+outFilePath+')');
-		var nPSR4 = 0; if(autload['psr-4'] !== undefined) { nPSR4 = Object.keys(autload['psr-4']).length; }
+		var nPSR4 = 0; if(finalAutoload['psr-4'] !== undefined) { nPSR4 = Object.keys(finalAutoload['psr-4']).length; }
 		console.log('"psr-4":    '+nPSR4+' namespace'+(nPSR4>1?'s':'')+' found');
-		var nCLASSMAP = 0; if(autload['classmap'] !== undefined) { nCLASSMAP = Object.keys(autload['classmap']).length; }
+		var nCLASSMAP = 0; if(finalAutoload['classmap'] !== undefined) { nCLASSMAP = Object.keys(finalAutoload['classmap']).length; }
 		console.log('"classmap": '+nCLASSMAP+' namespace'+(nCLASSMAP>1?'s':'')+' found');
 		console.log('');
 	});
