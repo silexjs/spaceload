@@ -41,10 +41,15 @@ Spaceload.prototype = {
 		};
 		return this;
 	},
-	use: function(namespace) {
+	use: function(namespace, returnPath) {
 		namespace = namespace.replace(/(\.|\s+|\\|\/)/g, '.');
+		var returnPath = returnPath || false;
 		if(this.cachePrefix[namespace] !== undefined) {
-			return this.cachePrefix[namespace];
+			if(returnPath === false) {
+				return require(this.cachePrefix[namespace]);
+			} else {
+				return this.cachePrefix[namespace];
+			}
 		}
 		if(this.debug === true) {
 			var search = [];
@@ -60,7 +65,12 @@ Spaceload.prototype = {
 				}
 				this.cachePath.push(path);
 				if(fs.existsSync(path) === true) {
-					return this.cachePrefix[namespace] = require(path);
+					this.cachePrefix[namespace] = path;
+					if(returnPath === false) {
+						return require(path);
+					} else {
+						return path;
+					}
 				} else if(this.debug === true) {
 					search.push(path);
 				}
@@ -75,6 +85,9 @@ Spaceload.prototype = {
 			}
 		}
 		throw new Error(message);
+	},
+	getPath(namespace) {
+		return this.use(namespace, true);
 	},
 	cacheClear: function() {
 		for(var i in this.cachePath) {

@@ -1,6 +1,6 @@
 {
 	"name": "spaceload",
-	"version": "0.0.16",
+	"version": "0.0.17",
 	"description": "Create a system of namespace with an integrated autoloader",
 	"main": "index.js",
 	"engines": {
