@@ -8,7 +8,7 @@ var Bonjour = USE('Sitexw.Bonjour.Speak');
 var Hello = USE('Sitexw.Hello.Speak');
 var Hola = USE('Sitexw.Hola.Speak');
 var Alpha = USE('Silex.Alpha.Test');
-var Beta = USE('Silex.Beta');
+var Beta = USE('Silex.Beta.Test');
 var Charlie = USE('Silex.Charlie.Hello.Hola.Bonjour.Test');
 
 

@@ -86,7 +86,7 @@ Spaceload.prototype = {
 		}
 		throw new Error(message);
 	},
-	getPath(namespace) {
+	getPath: function(namespace) {
 		return this.use(namespace, true);
 	},
 	cacheClear: function() {
