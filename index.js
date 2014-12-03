@@ -1,12 +1,13 @@
-var resolve = require('path').resolve;
+var pa = require('path');
 var fs = require('fs');
 
 
-var Spaceload = function(debug) {
-	if(debug !== undefined) {
+var Spaceload = function(debug, basePath) {
+	if(debug === true) {
 		this.debug = debug;
 		this.debugPrefix = {};
 	}
+	this.basePath = basePath || null;
 };
 Spaceload.prototype = {
 	debug: false,
@@ -16,7 +17,7 @@ Spaceload.prototype = {
 	
 	registerFile: function(path) {
 		if(typeof path === 'string') {
-			var autoload = require(resolve(path));
+			var autoload = require(pa.resolve(path));
 		} else {
 			var autoload = path;
 		}
@@ -31,6 +32,9 @@ Spaceload.prototype = {
 		if(this.prefix[prefix] !== undefined) {
 			throw new Error('['+prefix+'] prefix namespace is already registered');
 		}
+		if(this.basePath !== null) {
+			path = pa.join(this.basePath, path);
+		}
 		if(this.debug === true) {
 			this.debugPrefix[prefix] = path;
 		}
@@ -42,7 +46,7 @@ Spaceload.prototype = {
 		return this;
 	},
 	use: function(namespace, returnPath) {
-		namespace = namespace.replace(/(\.|\s+|\\|\/)/g, '.');
+		var namespace = namespace.replace(/(\.|\s+|\\|\/)/g, '.');
 		var returnPath = returnPath || false;
 		if(this.cachePrefix[namespace] !== undefined) {
 			if(returnPath === false) {
@@ -59,9 +63,9 @@ Spaceload.prototype = {
 			if(endNamespace !== null) {
 				if(this.prefix[prefix]['type'] === 'dir') {
 					endNamespace = endNamespace[1].replace(/\./g, '\/');
-					var path = resolve(this.prefix[prefix].path+endNamespace+'.js');
+					var path = pa.resolve(this.prefix[prefix].path+endNamespace+'.js');
 				} else {
-					var path = resolve(this.prefix[prefix].path);
+					var path = pa.resolve(this.prefix[prefix].path);
 				}
 				this.cachePath.push(path);
 				if(fs.existsSync(path) === true) {
@@ -96,6 +100,7 @@ Spaceload.prototype = {
 		this.cachePath = [];
 	},
 };
+
 
 module.exports = function(debug, globalVar) {
 	var spaceload = new Spaceload(debug);
