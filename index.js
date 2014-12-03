@@ -102,9 +102,10 @@ Spaceload.prototype = {
 };
 
 
-module.exports = function(debug, globalVar) {
-	var spaceload = new Spaceload(debug);
-	if(globalVar === undefined || globalVar === true) {
+module.exports = function(debug, basePath, globalVar) {
+	var basePath = basePath || null;
+	var spaceload = new Spaceload(debug, basePath);
+	if(globalVar !== false) {
 		GLOBAL.SPACELOAD = spaceload;
 		GLOBAL.USE = function(namespace) { return SPACELOAD.use(namespace); };
 	}
