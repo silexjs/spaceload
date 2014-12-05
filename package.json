@@ -1,6 +1,6 @@
 {
 	"name": "spaceload",
-	"version": "0.0.20",
+	"version": "0.0.21",
 	"description": "Create a system of namespace with an integrated autoloader",
 	"main": "index.js",
 	"engines": {
@@ -38,7 +38,7 @@
 	},
 	"autoload": {
 		"classmap": {
-			"Silex\\Component\\Spaceload": "./index.js"
+			"Silex\\Spaceload": "./index.js"
 		}
 	}
 }
