@@ -90,8 +90,14 @@ Spaceload.prototype = {
 		}
 		throw new Error(message);
 	},
-	getPath: function(namespace) {
-		return this.use(namespace, true);
+	getPath: function(namespace, replaceSlash) {
+		var replaceSlash = (replaceSlash!==undefined)?replaceSlash:true;
+		var path = this.use(namespace, true);
+		if(replaceSlash === true) {
+			return path.replace(/\\/g, '/');
+		} else {
+			return path;
+		}
 	},
 	cacheClear: function() {
 		for(var i in this.cachePath) {
