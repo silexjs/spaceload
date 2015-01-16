@@ -1,25 +1,9 @@
 {
 	"name": "spaceload",
-	"version": "0.0.22",
+	"version": "0.0.23",
 	"description": "Create a system of namespace with an integrated autoloader",
-	"main": "index.js",
-	"engines": {
-		"node": ">=0.10.0"
-	},
-	"dependencies": {
-		"silex-glob": "<2.0.0",
-		"commander": "2.x"
-	},
-	"scripts": {
-		"test": "cd ./test && node ../bin/spaceload install --test && node ./test.js"
-	},
-	"bin": {
-		"spaceload" : "./bin/spaceload"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/silexjs/spaceload.git"
-	},
+	"author": "Valentin Allaire <valentin@sitexw.fr>",
+	"license": "MIT",
 	"keywords": [
 		"spaceload",
 		"namespace",
@@ -27,15 +11,32 @@
 		"autoloader",
 		"silex"
 	],
-	"author": "Valentin Allaire <valentin@sitexw.fr>",
-	"license": "MIT",
+	"main": "index.js",
+	"dependencies": {
+		"silex-glob": "<2.0.0",
+		"commander": "2.x"
+	},
+	"dependenciesDev": {},
+	"scripts": {
+		"test": "cd ./test && node ../bin/spaceload install --test && node ./test.js"
+	},
+	"directories": {
+		"test": "test"
+	},
+	"bin": {
+		"spaceload" : "./bin/spaceload"
+	},
+	"engines": {
+		"node": ">=0.10.0"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/silexjs/spaceload.git"
+	},
 	"bugs": {
 		"url": "https://github.com/silexjs/spaceload/issues"
 	},
 	"homepage": "https://github.com/silexjs/spaceload",
-	"directories": {
-		"test": "test"
-	},
 	"autoload": {
 		"classmap": {
 			"Silex\\Spaceload": "./index.js"
