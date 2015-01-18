@@ -27,12 +27,11 @@ cmd.command('install [<dir>]')
 		var dir = dir || '.';
 		var outFileName = this.out || 'autoload.json';
 		var autload = {};
-		var packages = glob(path.resolve(dir)+'/**/node_modules/*/package.json', function(file) {
-			if(this.test === undefined && file.search('node_modules/spaceload/test/node_modules/') !== -1) {
-				return false;
-			}
-		});
+		var packages = glob.sync(path.resolve(dir)+'/**/node_modules/*/package.json');
 		for(i in packages) {
+			if(packages[i].search('node_modules/spaceload/test/node_modules/') !== -1) {
+				continue;
+			}
 			var pack = require(packages[i]);
 			if(pack['autoload'] !== undefined) {
 				for(type in pack['autoload']) {
