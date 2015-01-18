@@ -1,6 +1,6 @@
 {
 	"name": "spaceload",
-	"version": "0.0.24",
+	"version": "0.0.25",
 	"description": "Create a system of namespace with an integrated autoloader",
 	"author": "Valentin Allaire <valentin@sitexw.fr>",
 	"license": "MIT",
@@ -13,7 +13,7 @@
 	],
 	"main": "index.js",
 	"dependencies": {
-		"silex-glob": "<2.0.0",
+		"glob": "4.x",
 		"commander": "2.x"
 	},
 	"dependenciesDev": {},
