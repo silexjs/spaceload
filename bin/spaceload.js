@@ -58,7 +58,7 @@ cmd.command('install [<dir>]')
 			autload[type] = sortObject(autload[type]);
 			for(level in autload[type]) {
 				for(ns in autload[type][level]) {
-					finalAutoload[type][ns] = path.relative(path.resolve(dir), autload[type][level][ns]);
+					finalAutoload[type][ns] = './'+path.relative(path.resolve(dir), autload[type][level][ns]).replace(/\\/g, '/');
 				}
 			}
 		}
