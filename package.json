@@ -1,6 +1,6 @@
 {
 	"name": "spaceload",
-	"version": "0.0.27",
+	"version": "0.0.28",
 	"description": "Create a system of namespace with an integrated autoloader",
 	"author": "Valentin Allaire <valentin@sitexw.fr>",
 	"license": "MIT",
@@ -38,8 +38,8 @@
 	},
 	"homepage": "https://github.com/silexjs/spaceload",
 	"autoload": {
-		"classmap": {
-			"Silex\\Spaceload": "./index.js"
+		"psr-4": {
+			"Silex\\Spaceload": "./lib/"
 		}
 	}
 }

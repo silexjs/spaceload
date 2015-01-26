@@ -1,4 +1,4 @@
-var path = require('path');
+var pa = require('path');
 var fs = require('fs');
 var cmd = require('commander');
 var glob = require('glob');
@@ -20,57 +20,27 @@ function sortObject(o) {
 
 cmd.version(require('../package.json')['version']);
 cmd.command('install [<dir>]')
-	.option('-o, --out <file>', 'Output file name')
+	.option('-o, --out <fileName>', 'Output file name')
+	.option('-i, --indentation <value>', 'Allows you to choose the type of indentation (t=TABULATION and s=SPACE. Default: t)')
 	.option('--test', 'Takes into account the test files of Spaceload')
 	.description('Search (in package.json files node_modules folder) and create the autoload file (json)')
-	.action(function(dir) {
-		var dir = dir || '.';
-		var outFileName = this.out || 'autoload.json';
-		var autload = {};
-		var packages = glob.sync(path.resolve(dir)+'/**/node_modules/*/package.json');
-		for(i in packages) {
-			if(packages[i].search('node_modules/spaceload/test/node_modules/') !== -1) {
-				continue;
-			}
-			var pack = require(packages[i]);
-			if(pack['autoload'] !== undefined) {
-				for(type in pack['autoload']) {
-					if(autload[type] === undefined) {
-						autload[type] = {};
-					}
-					for(ns in pack['autoload'][type]) {
-						var nsClean = ns.replace(/(\.|\s+|\\|\/)/g, '\\');
-						var level = nsClean.split('\\').length;
-						if(autload[type][level] === undefined) {
-							autload[type][level] = {};
-						}
-						autload[type][level][nsClean] = path.join(path.dirname(packages[i]), pack['autoload'][type][ns]);
-					}
-				}
-			}
-		}
-		var finalAutoload = {};
-		for(type in autload) {
-			var types = {};
-			if(finalAutoload[type] === undefined) {
-				finalAutoload[type] = {};
-			}
-			autload[type] = sortObject(autload[type]);
-			for(level in autload[type]) {
-				for(ns in autload[type][level]) {
-					finalAutoload[type][ns] = './'+path.relative(path.resolve(dir), autload[type][level][ns]).replace(/\\/g, '/');
-				}
-			}
-		}
-		var outFilePath = path.normalize(path.resolve(dir)+'/'+outFileName);
-		fs.writeFileSync(outFilePath, JSON.stringify(finalAutoload, null, '\t'));
+	.action(function(dir, option) {
+		var dir = pa.resolve(dir || '');
+		var out = option.out || 'autoload.json';
+		var indentation = (option.indentation || 't').replace(/t/ig, '\t').replace(/s/ig, ' ');
+		var test = option.test || false;
 		
-		console.log('File "'+outFileName+'" created and contains: ('+outFilePath+')');
-		var nPSR4 = 0; if(finalAutoload['psr-4'] !== undefined) { nPSR4 = Object.keys(finalAutoload['psr-4']).length; }
-		console.log('"psr-4":    '+nPSR4+' namespace'+(nPSR4>1?'s':'')+' found');
-		var nCLASSMAP = 0; if(finalAutoload['classmap'] !== undefined) { nCLASSMAP = Object.keys(finalAutoload['classmap']).length; }
-		console.log('"classmap": '+nCLASSMAP+' namespace'+(nCLASSMAP>1?'s':'')+' found');
-		console.log('');
+		var Generator = require('../lib/Generator.js');
+		var generator = new Generator;
+		var autoload = generator.analyser(dir, test);
+		var outPath = pa.normalize(dir+'/'+out);
+		fs.writeFileSync(outPath, JSON.stringify(autoload, null, indentation));
+		
+		console.log('File "'+out+'" created and contains: ('+outPath+')');
+		var nPSR4 = 0; if(autoload['psr-4'] !== undefined) { nPSR4 = Object.keys(autoload['psr-4']).length; }
+		console.log('"psr-4":     '+nPSR4+' namespace'+(nPSR4>1?'s':'')+' found');
+		var nCLASSMAP = 0; if(autoload['classmap'] !== undefined) { nCLASSMAP = Object.keys(autoload['classmap']).length; }
+		console.log('"classmap":  '+nCLASSMAP+' namespace'+(nCLASSMAP>1?'s':'')+' found');
 	});
 cmd.parse(process.argv);
 
