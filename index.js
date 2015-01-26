@@ -1,1 +1,1 @@
-require('./lib/Spaceload.js');
+module.exports = require('./lib/Spaceload.js');
