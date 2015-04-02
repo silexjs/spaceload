@@ -1,7 +1,6 @@
 var pa = require('path');
 var fs = require('fs');
 var cmd = require('commander');
-var glob = require('glob');
 
 function sortObject(o) {
 	var sorted = {},

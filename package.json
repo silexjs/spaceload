@@ -1,6 +1,6 @@
 {
 	"name": "spaceload",
-	"version": "0.0.29",
+	"version": "0.0.30",
 	"description": "Create a system of namespace with an integrated autoloader",
 	"author": "Valentin Allaire <valentin@sitexw.fr>",
 	"license": "MIT",
